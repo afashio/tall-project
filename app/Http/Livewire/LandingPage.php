@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace App\Http\Livewire;
 
@@ -10,10 +11,7 @@ use Livewire\Component;
 
 class LandingPage extends Component
 {
-    /**
-     * @var string
-     */
-    public string $email = '';
+    public null|string $email = null;
     public bool $showSubscribe = false;
     public bool $showSuccess = false;
 
@@ -37,15 +35,17 @@ class LandingPage extends Component
                 /** @var Subscriber $subscriber */
                 $subscriber = Subscriber::create(['email' => $this->email]);
                 $notification = new VerifyEmail();
-                $notification->createUrlUsing(function ($notifiable){
-                    return URL::temporarySignedRoute(
-                        'subscribers.verify',
-                        now()->addMinutes(30),
-                        [
-                            'subscriber' => $notifiable->getKey(),
-                        ]
-                    );
-                });
+                $notification->createUrlUsing(
+                    function ($notifiable) {
+                        return URL::temporarySignedRoute(
+                            'subscribers.verify',
+                            now()->addMinutes(30),
+                            [
+                                'subscriber' => $notifiable->getKey(),
+                            ]
+                        );
+                    }
+                );
                 $subscriber->notify($notification);
             }
             ,
