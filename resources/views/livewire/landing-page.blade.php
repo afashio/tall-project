@@ -62,8 +62,14 @@
         <p class="animate-pulse text-white text-5xl font-extrabold text-center mt-8">
             Great!
         </p>
-        <p class="text-white text-3xl text-center">
-            See you in your inbox.
-        </p>
+        @if(request()->has('verified') && (int)request()->get('verified') === 1)
+            <p class="text-white text-3xl text-center">
+                Thx for being w/us!
+            </p>
+        @else
+            <p class="text-white text-3xl text-center">
+                See you in your inbox.
+            </p>
+        @endif
     </x-modal>
 </div>
