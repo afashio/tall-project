@@ -13,12 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('home');
+Route::get(
+    '/',
+    function () {
+        return view('welcome');
+    }
+)->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get(
+    '/dashboard',
+    function () {
+        return view('dashboard');
+    }
+)->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+Route::get('/subscribers/verify/{subscriber}', [\App\Http\Controllers\SubscriberController::class, 'verify'])
+    ->middleware('signed')
+    ->name('subscribers.verify');
+
+require __DIR__ . '/auth.php';
